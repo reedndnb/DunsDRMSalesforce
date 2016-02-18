@@ -1,0 +1,11 @@
+trigger OpportunityInsertTrigger on Opportunity (before insert) {
+    System.debug('Triggered on insert of opportunity. Updating blockchain...');
+    for (Opportunity opp : Trigger.new) {
+      
+      String duns = RandomStringGenerator.generateRandomString(9);
+      Blockchain.logTransaction(duns, 'DNB', 'CRM', 'Opportunity');
+      
+      NetsuiteInvoiceService.createInvoice(duns, 'Pepsi', '2000.00', '12/31/2016'); 
+    }
+}
+

@@ -1,0 +1,23 @@
+public class Payload {
+	public Map<String,String> argumentMap{get;set;}
+ 
+    public Payload(){
+        argumentMap = new Map<String,String>();
+    }
+    
+    public String toJSONString() {
+        String payload = '{';
+        String[] nameValuePairs = new List<String>();
+        for (String argument : argumentMap.keySet()) {
+            String quotedName = '"' + argument + '"';
+            String quotedValue = '"' + argumentMap.get(argument) + '"';            
+            nameValuePairs.add(quotedName + ': ' + quotedValue);
+        }
+        
+        payload = payload + String.join(nameValuePairs, ', ');
+        payload = payload + '}';
+        return payload;
+    }
+    
+}
+

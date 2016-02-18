@@ -1,0 +1,28 @@
+public class Blockchain {
+
+    @Future(callout=True)
+    public static void logTransaction(String duns, String fromEntity, String toEntity, String state) {
+		Map<String,String> arguments = new Map<String,String>();
+	    arguments.put('from', fromEntity);
+        arguments.put('to', toEntity);
+        arguments.put('duns', duns);
+        arguments.put('state', state);
+        
+        Payload payload = new Payload();
+		payload.argumentMap = arguments;        
+				        
+        String url = 'http://ec2-54-202-45-34.us-west-2.compute.amazonaws.com/service4/transactions';
+        Httprequest request = new HttpRequest();
+        request.setMethod('POST');
+        request.setEndpoint(url);
+        request.setBody(payload.toJSONString());
+ 		request.setHeader('content-type', 'application/json'); 
+        
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+        
+        System.debug('Response status code: ' + response.getStatusCode());
+        System.debug('Response: ' + response.getBody());        
+    }
+}
+
